@@ -1,8 +1,13 @@
 package com.paulgoldbaum.influxdbclient
 
 import com.paulgoldbaum.influxdbclient.Mocks.ExceptionThrowingHttpClient
+import org.scalatest.BeforeAndAfter
 
-class InfluxDBSuite extends CustomTestSuite {
+class InfluxDBSuite extends CustomTestSuite with BeforeAndAfter {
+
+  before {
+    waitForInternalDatabase()
+  }
 
   test("Asking for a connection returns default parameters") {
     val influxdb = InfluxDB.connect()
@@ -37,13 +42,12 @@ class InfluxDBSuite extends CustomTestSuite {
   }
 
   test("Shows existing databases") {
-    val result = await(influxdb.showDatabases())
+    val result = await(influxDb.showDatabases())
     assert(result.contains("_internal"))
   }
 
   test("Server can be pinged") {
-    await(influxdb.ping())
-
+    await(influxDb.ping())
   }
 
   test("If an error happens during a ping a PingException is thrown") {
@@ -72,7 +76,7 @@ class InfluxDBSuite extends CustomTestSuite {
 
   test("Multiple queries can be executed at the same time") {
     val queries = List("select * from subscriber limit 5", "select * from \"write\" limit 5")
-    val results = await(influxdb.selectDatabase("_internal").multiQuery(queries))
+    val results = await(influxDb.selectDatabase("_internal").multiQuery(queries))
     assert(results.length == 2)
     assert(results(0).series.head.name == "subscriber")
     assert(results(1).series.head.name == "write")

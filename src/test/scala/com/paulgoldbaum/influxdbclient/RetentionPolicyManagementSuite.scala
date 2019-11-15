@@ -4,10 +4,11 @@ import org.scalatest.BeforeAndAfter
 
 class RetentionPolicyManagementSuite extends CustomTestSuite with BeforeAndAfter {
 
-  val database = new Database("_test_database_rp", new HttpClient("localhost", 8086, false, databaseUsername, databasePassword))
+  var database: Database = _
   val retentionPolicyName = "test_retention_policy"
 
   before {
+    database = influxDb.selectDatabase("_test_database_rp")
     await(database.create())
   }
 

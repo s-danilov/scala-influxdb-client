@@ -5,9 +5,10 @@ import org.scalatest.BeforeAndAfter
 class DatabaseManagementSuite extends CustomTestSuite with BeforeAndAfter {
 
   val databaseName = "_test_database_mgmnt"
-  val database = influxdb.selectDatabase(databaseName)
+  var database: Database = _
 
   before {
+    database = influxDb.selectDatabase(databaseName)
     val exists = await(database.exists())
     if (exists) {
       await(database.drop())

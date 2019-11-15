@@ -6,9 +6,10 @@ import org.scalatest.{BeforeAndAfterAll, BeforeAndAfter}
 
 class DatabaseSuite extends CustomTestSuite with BeforeAndAfter {
 
-  val database = influxdb.selectDatabase("_test_database_db")
+  var database: Database = _
 
   before {
+    database = influxDb.selectDatabase("_test_database_db")
     try {
       await(database.drop())
     } catch {
@@ -23,7 +24,7 @@ class DatabaseSuite extends CustomTestSuite with BeforeAndAfter {
   }
 
   test("Writing to a non-existent database throws a DatabaseNotFoundException") {
-    val database = influxdb.selectDatabase("_test_database_db_2")
+    val database = influxDb.selectDatabase("_test_database_db_2")
 
     try {
       await(database.write(Point("test_measurement").addField("value", 123)))

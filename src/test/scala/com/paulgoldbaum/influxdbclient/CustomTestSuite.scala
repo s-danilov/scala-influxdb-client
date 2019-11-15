@@ -1,23 +1,68 @@
 package com.paulgoldbaum.influxdbclient
 
+import com.dimafeng.testcontainers.{ForAllTestContainer, GenericContainer}
+import com.github.dockerjava.api.model.ExposedPort
 import org.scalatest.{BeforeAndAfterAll, FunSuite}
+import org.testcontainers.containers.wait.strategy.Wait
 
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Awaitable, ExecutionContext}
 
-class CustomTestSuite extends FunSuite with BeforeAndAfterAll {
-
-  val waitDuration = 2.seconds
+class CustomTestSuite extends FunSuite with BeforeAndAfterAll with ForAllTestContainer {
+  private val influxDbInternalPort = 8086
   val databaseUsername = "influx_user"
   val databasePassword = "influx_password"
+
+  override val container = GenericContainer("influxdb:1.5",
+    exposedPorts = Seq(influxDbInternalPort),
+    waitStrategy = Wait.forHttp("/ping").forStatusCode(204),
+    env = Map(
+      "INFLUXDB_HTTP_AUTH_ENABLED" -> "true",
+      "INFLUXDB_ADMIN_USER" -> "influx_user",
+      "INFLUXDB_ADMIN_PASSWORD" -> "influx_password",
+      "INFLUXDB_UDP_ENABLED" -> "true",
+      "INFLUXDB_UDP_BIND_ADDRESS" -> s":$influxDbInternalPort",
+      "INFLUXDB_UDP_DATABASE" -> "_test_database_udp",
+      "INFLUXDB_UDP_BATCH_SIZE" -> "1",
+      "INFLUXDB_UDP_BATCH_TIMEOUT" -> "1ms",
+      "INFLUXDB_UDP_BATCH_PENDING" -> "1"
+    )
+  )
+
+  container.container.withCreateContainerCmdModifier(cmd => cmd.withExposedPorts(ExposedPort.udp(influxDbInternalPort)))
+
+  val waitDuration = 2.seconds
   implicit val ec = ExecutionContext.global
 
-  val influxdb = InfluxDB.connect("localhost", 8086, databaseUsername, databasePassword, false)
+  var influxDb: InfluxDB = _
+  var influxDbContainerIpAddress: String = _
+  var influxDbContainerTcpPort: Int = _
+  var influxDbContainerUdpPort: Int = _
 
   def await[T](f: Awaitable[T], duration: Duration = waitDuration) = Await.result(f, duration)
 
-  override def afterAll = {
-    influxdb.close()
+  def waitForInternalDatabase(): Unit = {
+    while(Await.result(influxDb.showDatabases().map(_.isEmpty), 10.seconds)) {
+      Thread.sleep(100)
+    }
   }
+
+  override protected def beforeAll(): Unit = {
+    import collection.JavaConverters._
+
+    influxDbContainerIpAddress = container.containerIpAddress
+    influxDbContainerTcpPort = container.mappedPort(influxDbInternalPort)
+    influxDbContainerUdpPort = container.container.getContainerInfo.getNetworkSettings.getPorts.getBindings.asScala.get(ExposedPort.udp(influxDbInternalPort))
+      .flatMap(_.headOption.map(_.getHostPortSpec.toInt)).getOrElse(0)
+
+    influxDb = InfluxDB.connect(influxDbContainerIpAddress, influxDbContainerTcpPort, databaseUsername, databasePassword, https = false)
+
+    super.beforeAll()
+  }
+
+  override def afterAll = {
+    influxDb.close()
+  }
+
 
 }
