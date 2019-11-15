@@ -1,10 +1,12 @@
 package io.razem.influxdbclient
 
 import java.nio.charset.Charset
-import org.asynchttpclient._
+
 import org.asynchttpclient.Realm.{AuthScheme, Builder}
-import scala.concurrent.{ExecutionContext, Future, Promise}
+import org.asynchttpclient._
+
 import scala.collection.JavaConverters._
+import scala.concurrent.{ExecutionContext, Future, Promise}
 
 protected class HttpClient(val host: String,
                           val port: Int,
@@ -51,7 +53,7 @@ protected class HttpClient(val host: String,
     resultPromise.future
   }
 
-  def close() = {
+  def close(): Unit = {
     if (isClosed)
       throw new HttpException("Connection is already closed")
 
@@ -59,7 +61,7 @@ protected class HttpClient(val host: String,
     connectionClosed = true
   }
 
-  def isClosed = connectionClosed
+  def isClosed: Boolean = connectionClosed
 
   private def makeAuthenticationRealm(): Realm = username match {
     case null => null
@@ -79,7 +81,7 @@ protected class HttpClient(val host: String,
       response
     }
 
-    override def onThrowable(throwable: Throwable) = {
+    override def onThrowable(throwable: Throwable): Unit = {
       promise.failure(new HttpException("An error occurred during the request", -1, throwable))
     }
   }

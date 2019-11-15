@@ -6,7 +6,7 @@ class Record protected[influxdbclient]
 (namesIndex: Map[String, Int], values: List[Any]) {
   def apply(position: Int) = values(position)
   def apply(name: String) = values(namesIndex(name))
-  def allValues = values
+  def allValues: List[Any] = values
 }
 
 class TagSet protected[influxdbclient]
@@ -18,9 +18,9 @@ class TagSet protected[influxdbclient]
 
 class Series protected[influxdbclient]
 (val name: String, val columns: List[String], val records: List[Record], val tags: TagSet) {
-  def points(column: String) = records.map(_(column))
-  def points(column: Int) = records.map(_(column))
-  def allValues = records.map(_.allValues)
+  def points(column: String): List[Any] = records.map(_(column))
+  def points(column: Int): List[Any] = records.map(_(column))
+  def allValues: List[List[Any]] = records.map(_.allValues)
 }
 
 protected[influxdbclient]

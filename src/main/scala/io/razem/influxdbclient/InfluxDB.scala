@@ -17,7 +17,7 @@ object InfluxDB {
     new InfluxDB(httpClient)
   }
 
-  def udpConnect(host: String, port: Int) = {
+  def udpConnect(host: String, port: Int): UdpClient = {
     new UdpClient(host, port)
   }
 }
@@ -47,19 +47,19 @@ class InfluxDB protected[influxdbclient]
     executeQuery(query.mkString(";"), precision)
       .map(response => QueryResult.fromJsonMulti(response.content))
 
-  private def executeQuery(query: String, precision: Precision = null) =
+  private def executeQuery(query: String, precision: Precision = null): Future[HttpResponse] =
     httpClient.get("/query", buildQueryParameters(query, precision))
       .recover { case error: HttpException => throw new QueryException("Error during query", error)}
 
-  def ping() =
+  def ping(): Future[QueryResult] =
     httpClient.get("/ping")
       .map(response => new QueryResult())
       .recover { case error: HttpException => throw new PingException("Error during ping", error)}
 
-  def close() =
+  def close(): Unit =
     httpClient.close()
 
-  protected def buildQueryParameters(query: String, precision: Precision) = {
+  protected def buildQueryParameters(query: String, precision: Precision): Map[String, String] = {
     val params = Map("q" -> query)
     if (precision != null)
       params + ("epoch" -> precision.toString)
@@ -67,7 +67,7 @@ class InfluxDB protected[influxdbclient]
       params
   }
 
-  protected[influxdbclient] def getHttpClient = httpClient
+  protected[influxdbclient] def getHttpClient: HttpClient = httpClient
 }
 
 class InfluxDBException protected[influxdbclient](str: String, throwable: Throwable) extends Exception(str, throwable)

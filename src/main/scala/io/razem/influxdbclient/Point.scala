@@ -1,15 +1,15 @@
 package io.razem.influxdbclient
 
 case class Point(key: String, timestamp: Long = -1, tags: Seq[Tag] = Nil, fields: Seq[Field] = Nil) {
-  def addTag(key: String, value: String) = copy(tags = Tag(key, value) +: tags)
+  def addTag(key: String, value: String): Point = copy(tags = Tag(key, value) +: tags)
 
-  def addField(key: String, value: String) = copy(fields = StringField(key, value) +: fields)
-  def addField(key: String, value: Double) = copy(fields = DoubleField(key, value) +: fields)
-  def addField(key: String, value: Long) = copy(fields = LongField(key, value) +: fields)
-  def addField(key: String, value: Boolean) = copy(fields = BooleanField(key, value) +: fields)
-  def addField(key: String, value: BigDecimal) = copy(fields = BigDecimalField(key, value) +: fields)
+  def addField(key: String, value: String): Point = copy(fields = StringField(key, value) +: fields)
+  def addField(key: String, value: Double): Point = copy(fields = DoubleField(key, value) +: fields)
+  def addField(key: String, value: Long): Point = copy(fields = LongField(key, value) +: fields)
+  def addField(key: String, value: Boolean): Point = copy(fields = BooleanField(key, value) +: fields)
+  def addField(key: String, value: BigDecimal): Point = copy(fields = BigDecimalField(key, value) +: fields)
 
-  def serialize() = {
+  def serialize(): String = {
     val sb = new StringBuilder
     sb.append(escapeKey(key))
     if (tags.nonEmpty) {

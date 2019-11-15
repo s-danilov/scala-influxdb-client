@@ -4,7 +4,7 @@ object Parameter {
 
   object Precision {
     sealed abstract class Precision(str: String) extends Serializable {
-      override def toString = str
+      override def toString: String = str
     }
 
     case object NANOSECONDS extends Precision("ns")
@@ -17,7 +17,7 @@ object Parameter {
 
   object Consistency {
     sealed abstract class Consistency(str: String) extends Serializable {
-      override def toString = str
+      override def toString: String = str
     }
 
     case object ONE extends Consistency("one")

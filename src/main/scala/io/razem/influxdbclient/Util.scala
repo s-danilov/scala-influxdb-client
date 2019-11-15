@@ -2,5 +2,5 @@ package io.razem.influxdbclient
 
 protected[influxdbclient]
 object Util {
-  def escapeString(str: String) = str.replaceAll("([ ,=])", "\\\\$1")
+  def escapeString(str: String): String = str.replaceAll("([ ,=])", "\\\\$1")
 }

@@ -1,14 +1,16 @@
 package io.razem.influxdbclient
 
+import scala.concurrent.Future
+
 protected[influxdbclient] trait DatabaseManagement { self: Database =>
 
-  def create() =
+  def create(): Future[QueryResult] =
     exec("CREATE DATABASE \"" + databaseName + "\"")
 
-  def drop() =
+  def drop(): Future[QueryResult] =
     exec("DROP DATABASE \"" + databaseName + "\"")
 
-  def exists() =
+  def exists(): Future[Boolean] =
     showDatabases().map(_.contains(databaseName))
 
 }

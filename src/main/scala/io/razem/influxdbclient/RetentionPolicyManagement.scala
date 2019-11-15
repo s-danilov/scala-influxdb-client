@@ -1,7 +1,9 @@
 package io.razem.influxdbclient
 
+import scala.concurrent.Future
+
 protected[influxdbclient] trait RetentionPolicyManagement { self: Database =>
-  def createRetentionPolicy(name: String, duration: String, replication: Int, default: Boolean) = {
+  def createRetentionPolicy(name: String, duration: String, replication: Int, default: Boolean): Future[QueryResult] = {
     var stringBuilder = new StringBuilder()
       .append("CREATE RETENTION POLICY \"").append(name)
       .append("\" ON \"").append(databaseName)
@@ -14,13 +16,13 @@ protected[influxdbclient] trait RetentionPolicyManagement { self: Database =>
     query(stringBuilder.toString())
   }
 
-  def showRetentionPolicies() =
+  def showRetentionPolicies(): Future[QueryResult] =
     query("SHOW RETENTION POLICIES ON \"%s\"".format(databaseName))
 
-  def dropRetentionPolicy(name: String) =
+  def dropRetentionPolicy(name: String): Future[QueryResult] =
     exec("DROP RETENTION POLICY \"%s\" ON \"%s\"".format(name, databaseName))
 
-  def alterRetentionPolicy(name: String, duration: String = null, replication: Int = -1, default: Boolean = false) = {
+  def alterRetentionPolicy(name: String, duration: String = null, replication: Int = -1, default: Boolean = false): Future[QueryResult] = {
     if (duration == null && replication == -1 && !default)
       throw new InvalidRetentionPolicyParametersException("At least one parameter has to be set")
 
