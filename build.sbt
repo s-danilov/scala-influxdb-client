@@ -7,7 +7,6 @@ crossScalaVersions := Seq(scalaVersion.value, "2.13.1", "2.11.12")
 
 testOptions in Test += Tests.Argument("-oDF")
 
-useGpg := true
 releaseCrossBuild := true
 
 libraryDependencies += "org.asynchttpclient" % "async-http-client" % "2.10.4"
