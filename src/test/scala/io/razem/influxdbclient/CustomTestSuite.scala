@@ -1,4 +1,4 @@
-package com.paulgoldbaum.influxdbclient
+package io.razem.influxdbclient
 
 import com.dimafeng.testcontainers.{ForAllTestContainer, GenericContainer}
 import com.github.dockerjava.api.model.ExposedPort

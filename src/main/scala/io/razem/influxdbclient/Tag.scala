@@ -1,4 +1,4 @@
-package com.paulgoldbaum.influxdbclient
+package io.razem.influxdbclient
 
 case class Tag(key: String, value: String) {
   require(value != null, "Tag values may not be null")

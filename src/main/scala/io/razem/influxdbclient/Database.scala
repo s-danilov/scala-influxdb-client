@@ -1,7 +1,7 @@
-package com.paulgoldbaum.influxdbclient
+package io.razem.influxdbclient
 
-import com.paulgoldbaum.influxdbclient.Parameter.Consistency.Consistency
-import com.paulgoldbaum.influxdbclient.Parameter.Precision.Precision
+import io.razem.influxdbclient.Parameter.Consistency.Consistency
+import io.razem.influxdbclient.Parameter.Precision.Precision
 
 import scala.concurrent.{ExecutionContext, Future}
 

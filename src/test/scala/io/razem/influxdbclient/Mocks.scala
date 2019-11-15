@@ -1,4 +1,4 @@
-package com.paulgoldbaum.influxdbclient
+package io.razem.influxdbclient
 
 import scala.concurrent.{ExecutionContext, Future}
 

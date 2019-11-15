@@ -1,4 +1,4 @@
-package com.paulgoldbaum.influxdbclient
+package io.razem.influxdbclient
 
 import org.asynchttpclient.DefaultAsyncHttpClientConfig
 

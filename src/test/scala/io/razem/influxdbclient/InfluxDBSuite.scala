@@ -1,6 +1,6 @@
-package com.paulgoldbaum.influxdbclient
+package io.razem.influxdbclient
 
-import com.paulgoldbaum.influxdbclient.Mocks.ExceptionThrowingHttpClient
+import io.razem.influxdbclient.Mocks.ExceptionThrowingHttpClient
 import org.scalatest.BeforeAndAfter
 
 class InfluxDBSuite extends CustomTestSuite with BeforeAndAfter {

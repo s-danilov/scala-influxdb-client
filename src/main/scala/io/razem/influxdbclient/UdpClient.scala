@@ -1,4 +1,4 @@
-package com.paulgoldbaum.influxdbclient
+package io.razem.influxdbclient
 
 import java.net.{InetSocketAddress, DatagramPacket, DatagramSocket}
 

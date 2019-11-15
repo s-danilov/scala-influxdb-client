@@ -1,4 +1,4 @@
-package com.paulgoldbaum.influxdbclient
+package io.razem.influxdbclient
 
 case class Point(key: String, timestamp: Long = -1, tags: Seq[Tag] = Nil, fields: Seq[Field] = Nil) {
   def addTag(key: String, value: String) = copy(tags = Tag(key, value) +: tags)

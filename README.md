@@ -15,7 +15,7 @@ libraryDependencies += "com.paulgoldbaum" %% "scala-influxdb-client" % "0.6.1"
 
 ## Connecting
 ```scala
-import com.paulgoldbaum.influxdbclient._
+import io.razem.influxdbclient._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 val influxdb = InfluxDB.connect("localhost", 8086)
@@ -152,7 +152,7 @@ database.alterRetentionPolicy(name, duration, replication, default)
 
 ### Writing over UDP
 ```scala
-import com.paulgoldbaum.influxdbclient._
+import io.razem.influxdbclient._
 
 val udpClient = InfluxDB.udpConnect("localhost", 8086)
 val point = Point("cpu", System.currentTimeMillis())

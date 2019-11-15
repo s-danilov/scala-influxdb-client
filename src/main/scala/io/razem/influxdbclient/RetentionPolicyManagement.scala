@@ -1,4 +1,4 @@
-package com.paulgoldbaum.influxdbclient
+package io.razem.influxdbclient
 
 protected[influxdbclient] trait RetentionPolicyManagement { self: Database =>
   def createRetentionPolicy(name: String, duration: String, replication: Int, default: Boolean) = {

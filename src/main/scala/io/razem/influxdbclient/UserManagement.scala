@@ -1,4 +1,4 @@
-package com.paulgoldbaum.influxdbclient
+package io.razem.influxdbclient
 
 protected[influxdbclient] trait UserManagement { self: InfluxDB =>
   def createUser(username: String, password: String, isClusterAdmin: Boolean = false) = {

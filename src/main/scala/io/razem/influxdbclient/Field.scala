@@ -1,4 +1,4 @@
-package com.paulgoldbaum.influxdbclient
+package io.razem.influxdbclient
 
 sealed trait Field extends Product with Serializable {
   def serialize: String

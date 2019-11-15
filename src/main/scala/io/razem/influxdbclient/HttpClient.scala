@@ -1,4 +1,4 @@
-package com.paulgoldbaum.influxdbclient
+package io.razem.influxdbclient
 
 import java.nio.charset.Charset
 import org.asynchttpclient._
