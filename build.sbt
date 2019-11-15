@@ -2,18 +2,18 @@ name := "scala-influxdb-client"
 
 organization := "io.razem"
 
-scalaVersion := "2.12.8"
-crossScalaVersions := Seq(scalaVersion.value, "2.11.12", "2.10.7")
+scalaVersion := "2.13.1"
+crossScalaVersions := Seq(scalaVersion.value, "2.12.8", "2.11.12", "2.10.7")
 
 testOptions in Test += Tests.Argument("-oDF")
 
 useGpg := true
 releaseCrossBuild := true
 
-libraryDependencies += "org.asynchttpclient" % "async-http-client" % "2.4.9"
-libraryDependencies += "io.spray" %%  "spray-json" % "1.3.4"
-libraryDependencies += "com.github.tomakehurst" % "wiremock" % "2.16.0" % "test"
-libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.5" % "test"
+libraryDependencies += "org.asynchttpclient" % "async-http-client" % "2.10.4"
+libraryDependencies += "io.spray" %%  "spray-json" % "1.3.5"
+libraryDependencies += "com.github.tomakehurst" % "wiremock" % "2.25.1" % "test"
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.8" % "test"
 
 import ReleaseTransformations._
 
