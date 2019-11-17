@@ -1,5 +1,7 @@
 package io.razem.influxdbclient
 
+import java.util.function.Consumer
+
 import com.dimafeng.testcontainers.{ForAllTestContainer, GenericContainer}
 import com.github.dockerjava.api.model.ExposedPort
 import org.scalatest.{BeforeAndAfterAll, FunSuite}
@@ -29,17 +31,17 @@ class CustomTestSuite extends FunSuite with BeforeAndAfterAll with ForAllTestCon
     )
   )
 
-  container.container.withCreateContainerCmdModifier(cmd => cmd.withExposedPorts(ExposedPort.udp(influxDbInternalPort)))
+  container.container.withCreateContainerCmdModifier(toJavaConsumer(cmd => cmd.withExposedPorts(ExposedPort.udp(influxDbInternalPort))))
 
-  val waitDuration = 2.seconds
-  implicit val ec = ExecutionContext.global
+  val waitDuration: FiniteDuration = 2.seconds
+  implicit val ec: ExecutionContext = ExecutionContext.global
 
   var influxDb: InfluxDB = _
   var influxDbContainerIpAddress: String = _
   var influxDbContainerTcpPort: Int = _
   var influxDbContainerUdpPort: Int = _
 
-  def await[T](f: Awaitable[T], duration: Duration = waitDuration) = Await.result(f, duration)
+  def await[T](f: Awaitable[T], duration: Duration = waitDuration): T = Await.result(f, duration)
 
   def waitForInternalDatabase(): Unit = {
     while(Await.result(influxDb.showDatabases().map(_.isEmpty), 10.seconds)) {
@@ -55,14 +57,22 @@ class CustomTestSuite extends FunSuite with BeforeAndAfterAll with ForAllTestCon
     influxDbContainerUdpPort = container.container.getContainerInfo.getNetworkSettings.getPorts.getBindings.asScala.get(ExposedPort.udp(influxDbInternalPort))
       .flatMap(_.headOption.map(_.getHostPortSpec.toInt)).getOrElse(0)
 
-    influxDb = InfluxDB.connect(influxDbContainerIpAddress, influxDbContainerTcpPort, databaseUsername, databasePassword, https = false)
+    influxDb = InfluxDB.connect(influxDbContainerIpAddress, influxDbContainerTcpPort, databaseUsername, databasePassword)
 
     super.beforeAll()
   }
 
-  override def afterAll = {
+  override def afterAll: Unit = {
     influxDb.close()
   }
 
-
+  // workaround for scala 2.11
+  // can be removed as soon support for 2.11 gets dropped
+  def toJavaConsumer[T](consumer: (T) => Unit): Consumer[T] ={
+    new Consumer[T] {
+      override def accept(t: T): Unit = {
+        consumer(t)
+      }
+    }
+  }
 }
