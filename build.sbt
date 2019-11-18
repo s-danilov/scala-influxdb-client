@@ -9,7 +9,7 @@ publishTo := sonatypePublishToBundle.value
 
 testOptions in Test += Tests.Argument("-oDF")
 
-releaseCrossBuild := !version.value.contains("SNAPSHOT")
+releaseCrossBuild := true
 
 libraryDependencies += "org.asynchttpclient" % "async-http-client" % "2.10.4"
 libraryDependencies += "io.spray" %%  "spray-json" % "1.3.5"
