@@ -1,7 +1,7 @@
 scala-influxdb-client
 =====================
 
-[![Build Status](https://travis-ci.org/paulgoldbaum/scala-influxdb-client.svg?branch=master)](https://travis-ci.org/paulgoldbaum/scala-influxdb-client)
+[![Build Status](https://github.razem.io/api/badges/razem-io/scala-influxdb-client/status.svg)](https://github.razem.io/razem-io/scala-influxdb-client)
 [![codecov.io](http://codecov.io/github/paulgoldbaum/scala-influxdb-client/coverage.svg?branch=master)](http://codecov.io/github/paulgoldbaum/scala-influxdb-client?branch=master)
 
 Asynchronous library for accessing InfluxDB from Scala.
