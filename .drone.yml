@@ -1,0 +1,18 @@
+workspace:
+  base: /scala-influxdb-client
+  path: src/github.com/razem-io/scala-influxdb-client
+
+pipeline:
+  build:
+    image: hseeberger/scala-sbt:11.0.4_1.3.3_2.12.10
+    commands:
+      - sbt +publishLocal
+  github_release:
+    image: plugins/github-release
+    secrets: [ github_release_api_key ]
+    files:
+      - server/target/scala-2.12/scala-influxdb-client_*
+    checksum:
+      - sha512
+    when:
+      event: tag

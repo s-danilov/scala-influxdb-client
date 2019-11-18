@@ -2,8 +2,10 @@ name := "scala-influxdb-client"
 
 organization := "io.razem"
 
-scalaVersion := "2.12.8"
+scalaVersion := "2.12.10"
 crossScalaVersions := Seq(scalaVersion.value, "2.13.1", "2.11.12")
+
+publishTo := sonatypePublishToBundle.value
 
 testOptions in Test += Tests.Argument("-oDF")
 
