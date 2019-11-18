@@ -2,7 +2,7 @@ scala-influxdb-client
 =====================
 
 [![Build Status](https://github.razem.io/api/badges/razem-io/scala-influxdb-client/status.svg)](https://github.razem.io/razem-io/scala-influxdb-client)
-[![codecov.io](http://codecov.io/github/paulgoldbaum/scala-influxdb-client/coverage.svg?branch=master)](http://codecov.io/github/paulgoldbaum/scala-influxdb-client?branch=master)
+[![codecov](https://codecov.io/gh/razem-io/scala-influxdb-client/branch/master/graph/badge.svg)](https://codecov.io/gh/razem-io/scala-influxdb-client)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.razem/scala-influxdb-client_2.13/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.razem/scala-influxdb-client_2.13)
 
 Asynchronous library for accessing InfluxDB from Scala.
