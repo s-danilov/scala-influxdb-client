@@ -11,7 +11,9 @@ pipeline:
     image: plugins/github-release
     secrets: [ github_release_api_key ]
     files:
+      - server/target/scala-2.11/scala-influxdb-client_*
       - server/target/scala-2.12/scala-influxdb-client_*
+      - server/target/scala-2.13/scala-influxdb-client_*
     checksum:
       - sha512
     when:
