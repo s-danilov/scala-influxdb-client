@@ -30,6 +30,23 @@ class PointSuite extends CustomTestSuite {
     }
   }
 
+  test("None tag values should not be appended via addOptTag") {
+    val tag = Option.empty[String]
+    val point = Point("measurement", 1234567890L)
+
+    assert(point === point.addOptTag("key", tag))
+  }
+
+  test("Some() tag values should not be appended via addOptTag") {
+    val tagKey = "value"
+    val tagValue = "value"
+    val tagParam = Some(tagValue)
+    val point = Point("measurement", 1234567890L)
+    val expected = point.copy(tags = Tag(tagKey, tagValue) +: point.tags)
+
+    assert(point.addOptTag(tagKey, tagParam) === expected)
+  }
+
   test("Tags cannot contain empty values") {
     try {
       Tag("key", "")
