@@ -10,7 +10,7 @@ Asynchronous library for accessing InfluxDB from Scala.
 ## Installation
 Add the following to your `build.sbt`
 ```scala
-libraryDependencies += "io.razem" %% "scala-influxdb-client" % "0.6.2"
+libraryDependencies += "io.razem" %% "scala-influxdb-client" % "0.6.3"
 ```
 
 ## Connecting
