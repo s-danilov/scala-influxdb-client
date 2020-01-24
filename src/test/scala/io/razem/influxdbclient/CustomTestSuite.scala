@@ -15,7 +15,7 @@ class CustomTestSuite extends FunSuite with BeforeAndAfterAll with ForAllTestCon
   val databaseUsername = "influx_user"
   val databasePassword = "influx_password"
 
-  override val container = GenericContainer("influxdb:1.5",
+  override val container: GenericContainer = GenericContainer("influxdb:1.5",
     exposedPorts = Seq(influxDbInternalPort),
     waitStrategy = Wait.forHttp("/ping").forStatusCode(204),
     env = Map(
@@ -68,11 +68,9 @@ class CustomTestSuite extends FunSuite with BeforeAndAfterAll with ForAllTestCon
 
   // workaround for scala 2.11
   // can be removed as soon support for 2.11 gets dropped
-  def toJavaConsumer[T](consumer: (T) => Unit): Consumer[T] ={
-    new Consumer[T] {
-      override def accept(t: T): Unit = {
-        consumer(t)
-      }
+  def toJavaConsumer[T](consumer: T => Unit): Consumer[T] ={
+    t: T => {
+      consumer(t)
     }
   }
 }

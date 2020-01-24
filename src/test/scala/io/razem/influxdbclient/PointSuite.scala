@@ -1,6 +1,8 @@
 package io.razem.influxdbclient
 
-class PointSuite extends CustomTestSuite {
+import org.scalatest.FunSuite
+
+class PointSuite extends FunSuite {
 
   test("Minimal point is serialized correctly") {
     val point = Point("key")
@@ -26,7 +28,7 @@ class PointSuite extends CustomTestSuite {
       Tag("key", null)
       fail("Exception was not thrown")
     } catch {
-      case e: IllegalArgumentException => // expected
+      case _: IllegalArgumentException => // expected
     }
   }
 
@@ -37,7 +39,7 @@ class PointSuite extends CustomTestSuite {
     assert(point === point.addOptTag("key", tag))
   }
 
-  test("Some() tag values should not be appended via addOptTag") {
+  test("Some() tag values should be appended via addOptTag") {
     val tagKey = "value"
     val tagValue = "value"
     val tagParam = Some(tagValue)
@@ -52,7 +54,7 @@ class PointSuite extends CustomTestSuite {
       Tag("key", "")
       fail("Exception was not thrown")
     } catch {
-      case e: IllegalArgumentException => // expected
+      case _: IllegalArgumentException => // expected
     }
   }
 
@@ -75,7 +77,7 @@ class PointSuite extends CustomTestSuite {
   }
 
   test("Long fields are serialized correctly") {
-    assert(LongField("key", 12123l).serialize == "key=12123i")
+    assert(LongField("key", 12123L).serialize == "key=12123i")
   }
 
   test("Boolean fields are serialized correctly") {
@@ -88,6 +90,23 @@ class PointSuite extends CustomTestSuite {
 
   test("Fields are escaped correctly") {
     assert(StringField("ke y", "a v=al\"ue").serialize == "ke\\ y=\"a v=al\\\"ue\"")
-    assert(LongField("key,", 12123l).serialize == "key\\,=12123i")
+    assert(LongField("key,", 12123L).serialize == "key\\,=12123i")
+  }
+
+  test("None field values should not be appended") {
+    val field = Option.empty[String]
+    val point = Point("measurement", 1234567890L)
+
+    assert(point === point.addField("key", field))
+  }
+
+  test("Some() field values should be appended via addField") {
+    val fieldKey = "value"
+    val fieldValue = "value"
+    val fieldParam: Option[String] = Some(fieldValue)
+    val point = Point("measurement", 1234567890L)
+    val expected = point.copy(fields = StringField(fieldKey, fieldValue) +: point.fields)
+
+    assert(point.addField(fieldKey, fieldParam) === expected)
   }
 }
