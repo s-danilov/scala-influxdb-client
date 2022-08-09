@@ -5,7 +5,8 @@ scala-influxdb-client
 [![codecov](https://codecov.io/gh/razem-io/scala-influxdb-client/branch/master/graph/badge.svg)](https://codecov.io/gh/razem-io/scala-influxdb-client)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.razem/scala-influxdb-client_2.13/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.razem/scala-influxdb-client_2.13)
 
-Asynchronous library for accessing InfluxDB from Scala.
+Asynchronous library for accessing InfluxDB from Scala. InfluxDB up to version 1.8 is supported. I do not have time
+to maintain this project any further, but I am open for pull requests and can release new versions if needed.
 
 ## Installation
 Add the following to your `build.sbt`
