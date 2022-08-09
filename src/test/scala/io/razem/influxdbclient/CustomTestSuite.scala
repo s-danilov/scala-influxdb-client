@@ -15,7 +15,7 @@ class CustomTestSuite extends AnyFunSuite with BeforeAndAfterAll with ForAllTest
   val databaseUsername = "influx_user"
   val databasePassword = "influx_password"
 
-  override val container: GenericContainer = GenericContainer("influxdb:1.5",
+  override val container: GenericContainer = GenericContainer("influxdb:1.8",
     exposedPorts = Seq(influxDbInternalPort),
     waitStrategy = Wait.forHttp("/ping").forStatusCode(204),
     env = Map(
