@@ -1,16 +1,16 @@
 package io.razem.influxdbclient
 
-import java.util.function.Consumer
-
 import com.dimafeng.testcontainers.{ForAllTestContainer, GenericContainer}
 import com.github.dockerjava.api.model.ExposedPort
-import org.scalatest.{BeforeAndAfterAll, FunSuite}
+import org.scalatest.BeforeAndAfterAll
+import org.scalatest.funsuite.AnyFunSuite
 import org.testcontainers.containers.wait.strategy.Wait
 
+import java.util.function.Consumer
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Awaitable, ExecutionContext}
 
-class CustomTestSuite extends FunSuite with BeforeAndAfterAll with ForAllTestContainer {
+class CustomTestSuite extends AnyFunSuite with BeforeAndAfterAll with ForAllTestContainer {
   private val influxDbInternalPort = 8086
   val databaseUsername = "influx_user"
   val databasePassword = "influx_password"

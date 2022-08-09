@@ -1,8 +1,8 @@
 package io.razem.influxdbclient
 
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
-class PointSuite extends FunSuite {
+class PointSuite extends AnyFunSuite {
 
   test("Minimal point is serialized correctly") {
     val point = Point("key")
@@ -10,12 +10,12 @@ class PointSuite extends FunSuite {
   }
 
   test("Complete points are serialized correctly") {
-    val point = Point("measurement", 1234567890l)
+    val point = Point("measurement", 1234567890L)
       .addTag("tag_key2", "tag_value2")
       .addTag("tag_key1", "tag_value1")
       .addField("field_key5", BigDecimal("51.98890310"))
       .addField("field_key4", 12.34)
-      .addField("field_key3", true)
+      .addField("field_key3", value = true)
       .addField("field_key2", 2)
       .addField("field_key1", "field_value1")
 

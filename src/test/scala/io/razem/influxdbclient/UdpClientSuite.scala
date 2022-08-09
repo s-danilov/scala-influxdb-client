@@ -24,6 +24,8 @@ class UdpClientSuite extends CustomTestSuite with BeforeAndAfter {
 
     val database = influxDb.selectDatabase(databaseName)
     val result = await(database.query("SELECT * FROM test_measurement"))
+
+    assert(result.series.nonEmpty)
     assert(result.series.head.records.length == 1)
     assert(result.series.head.records.head("value") == 123)
   }

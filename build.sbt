@@ -2,20 +2,20 @@ name := "scala-influxdb-client"
 
 organization := "io.razem"
 
-scalaVersion := "2.12.10"
-crossScalaVersions := Seq(scalaVersion.value, "2.13.1", "2.11.12")
+scalaVersion := "2.12.16"
+crossScalaVersions := Seq(scalaVersion.value, "2.13.8", "2.11.12")
 
 publishTo := sonatypePublishToBundle.value
 
-testOptions in Test += Tests.Argument("-oDF")
+Test / testOptions += Tests.Argument("-oDF")
 
 releaseCrossBuild := true
 
-libraryDependencies += "org.asynchttpclient" % "async-http-client" % "2.10.4"
-libraryDependencies += "io.spray" %%  "spray-json" % "1.3.5"
-libraryDependencies += "com.github.tomakehurst" % "wiremock" % "2.25.1" % "test"
-libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.8" % "test"
-libraryDependencies += "com.dimafeng" %% "testcontainers-scala" % "0.33.0" % "test"
+libraryDependencies += "org.asynchttpclient" % "async-http-client" % "2.12.3"
+libraryDependencies += "io.spray" %%  "spray-json" % "1.3.6"
+libraryDependencies += "com.github.tomakehurst" % "wiremock" % "2.27.2" % "test"
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.12" % "test"
+libraryDependencies += "com.dimafeng" %% "testcontainers-scala" % "0.38.9" % "test"
 
 import ReleaseTransformations._
 
